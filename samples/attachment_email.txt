@@ -1,0 +1,19 @@
+From: Finance Department <finance@example-company.com>
+Reply-To: finance@example-company.com
+Return-Path: <finance@example-company.com>
+Message-ID: <invoice-778@example-company.com>
+Authentication-Results: mx.example.com;
+    spf=pass smtp.mailfrom=example-company.com;
+    dkim=pass header.d=example-company.com;
+    dmarc=pass header.from=example-company.com
+Received: from mail.example-company.com by mx.example.com with ESMTP id attach001
+Subject: Invoice Document for Review
+
+Hello,
+
+Please review the attached invoice document before processing the payment.
+
+Attachment: invoice.pdf.exe
+
+Regards,
+Finance Department

@@ -1,0 +1,19 @@
+From: Account Notice <notice@example.com>
+Reply-To: notice@example.com
+Return-Path: <notice@example.com>
+Message-ID: <url-test-001@example.com>
+Authentication-Results: mx.example.com;
+    spf=pass smtp.mailfrom=example.com;
+    dkim=pass header.d=example.com;
+    dmarc=pass header.from=example.com
+Received: from mail.example.com by mx.example.com with ESMTP id url001
+Subject: Account Review Required
+
+Hello,
+
+Please review your account settings using the link below:
+
+http://login.security.verify.microsoft-support.ru/account/verify?password=reset
+
+Thank you,
+Account Team

@@ -1,0 +1,23 @@
+From: Microsoft Support <security@micros0ft-login.com>
+Reply-To: attacker@gmail.com
+Return-Path: <bounce@evil-example.ru>
+Message-ID: <99999@evil-example.ru>
+Authentication-Results: mx.example.com;
+    spf=fail smtp.mailfrom=micros0ft-login.com;
+    dkim=fail header.d=micros0ft-login.com;
+    dmarc=fail header.from=micros0ft-login.com
+Received: from unknown.evil-example.ru by mx.example.com with ESMTP id bad999
+Subject: Account Verification Required
+
+Dear user,
+
+Your Microsoft account has unusual login activity.
+Immediate action is required to avoid account suspension.
+
+Please verify your password here:
+http://login.security.verify.microsoft-support.ru/account/verify?password=reset
+
+Attachment: invoice.pdf.exe
+
+Regards,
+Security Team

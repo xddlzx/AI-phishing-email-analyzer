@@ -1,0 +1,19 @@
+From: Microsoft Support <security@micros0ft-login.com>
+Reply-To: support-team@gmail.com
+Return-Path: <bounce@unknown-sender.example>
+Message-ID: <abc999@unknown-sender.example>
+Authentication-Results: mx.example.com;
+    spf=fail smtp.mailfrom=micros0ft-login.com;
+    dkim=fail header.d=micros0ft-login.com;
+    dmarc=fail header.from=micros0ft-login.com
+Received: from unknown-sender.example by mx.example.com with ESMTP id suspicious001
+Subject: Security Notification
+
+Dear user,
+
+We detected unusual login activity on your account.
+
+Please review your recent account activity.
+
+Regards,
+Security Team

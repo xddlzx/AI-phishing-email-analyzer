@@ -1,4 +1,4 @@
-from typing import Dict, Any
+from typing import Dict, Any, List
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
@@ -25,7 +25,44 @@ class PhishingTextClassifier:
         self.model.to(self.device)
         self.model.eval()
 
-        self.id2label = self.model.config.id2label
+        self.id2label = self._resolve_id2label()
+    
+    def _resolve_id2label(self) -> Dict[int, str]:
+        """
+        Resolve model labels.
+
+        Some Hugging Face models expose generic labels like LABEL_0, LABEL_1.
+        The model card for cybersectony/phishing-email-detection-distilbert_v2.4.1
+        shows four output classes:
+            0 -> legitimate_email
+            1 -> phishing_url
+            2 -> legitimate_url
+            3 -> phishing_url_alt
+
+        If the model config only gives generic LABEL_n names, we map them manually.
+        """
+
+        configured_labels = dict(self.model.config.id2label)
+
+        label_values = [
+            str(configured_labels[index]).lower()
+            for index in sorted(configured_labels.keys())
+        ]
+
+        uses_generic_labels = all(
+            label.startswith("label_")
+            for label in label_values
+        )
+
+        if uses_generic_labels and len(configured_labels) == 4:
+            return {
+                0: "legitimate_email",
+                1: "phishing_url",
+                2: "legitimate_url",
+                3: "phishing_url_alt"
+            }
+
+        return configured_labels
 
     def _get_device(self) -> torch.device:
         """
@@ -56,12 +93,17 @@ class PhishingTextClassifier:
 
         if not email_text or not email_text.strip():
             return {
+                "module": "text_classification",
                 "error": "Empty email text provided.",
                 "classification": "UNKNOWN",
+                "score": 0.0,
+                "max_score": 40,
                 "phishing_score": 0.0,
                 "confidence": 0.0,
                 "raw_prediction": None,
-                "all_probabilities": {}
+                "all_probabilities": {},
+                "findings": [],
+                "model_name": self.MODEL_NAME
             }
 
         inputs = self.tokenizer(
@@ -90,7 +132,17 @@ class PhishingTextClassifier:
         phishing_score = self._calculate_phishing_score(all_probabilities)
         classification = self._normalize_classification(phishing_score)
 
+        findings = self._build_findings(
+            classification=classification,
+            phishing_score=phishing_score,
+            raw_prediction=raw_prediction
+        )
+
         return {
+            "module": "text_classification",
+            "text_score": round(phishing_score * 40, 2),
+            "score": round(phishing_score * 40, 2),
+            "max_score": 40,
             "classification": classification,
             "phishing_score": round(phishing_score, 4),
             "confidence": round(confidence, 4),
@@ -99,8 +151,10 @@ class PhishingTextClassifier:
                 label: round(score, 4)
                 for label, score in all_probabilities.items()
             },
+            "findings": findings,
             "model_name": self.MODEL_NAME
         }
+    
 
     def _get_probabilities(self, logits: torch.Tensor) -> torch.Tensor:
         """
@@ -116,6 +170,7 @@ class PhishingTextClassifier:
             return torch.sigmoid(logits).detach().cpu()
 
         return torch.softmax(logits, dim=-1).detach().cpu()
+    
 
     def _calculate_phishing_score(self, probabilities: Dict[str, float]) -> float:
         """
@@ -153,3 +208,34 @@ class PhishingTextClassifier:
             return "SUSPICIOUS"
 
         return "SAFE"
+
+
+    def _build_findings(
+        self,
+        classification: str,
+        phishing_score: float,
+        raw_prediction: str
+    ) -> List[Dict[str, Any]]:
+        """
+        Build explanation-ready findings for the AI text classifier.
+        """
+
+        if classification == "SAFE":
+            return []
+
+        severity = "High" if classification == "PHISHING" else "Medium"
+
+        return [
+            {
+                "severity": severity,
+                "score": round(phishing_score * 40, 2),
+                "finding": "AI text classifier detected phishing-like language.",
+                "explanation": (
+                    f"The model prediction was '{raw_prediction}' with a phishing "
+                    f"score of {round(phishing_score, 4)}."
+                ),
+                "mitre_mapping": [
+                    "T1566 - Phishing"
+                ]
+            }
+        ]

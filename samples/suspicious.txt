@@ -1,0 +1,19 @@
+From: IT Help Desk <helpdesk@example.com>
+Reply-To: helpdesk@example.com
+Return-Path: <helpdesk@example.com>
+Message-ID: <helpdesk-778@example.com>
+Authentication-Results: mx.example.com;
+    spf=pass smtp.mailfrom=example.com;
+    dkim=pass header.d=example.com;
+    dmarc=pass header.from=example.com
+Received: from mail.example.com by mx.example.com with ESMTP id text001
+Subject: Password Reset Required
+
+Dear user,
+
+Your password must be reset today due to a security policy update.
+
+Please contact IT support if you have any questions.
+
+Regards,
+IT Help Desk

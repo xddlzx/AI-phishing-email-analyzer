@@ -1,0 +1,20 @@
+From: Vendor Billing <billing@vendor-example.com>
+Reply-To: billing@vendor-example.com
+Return-Path: <billing@vendor-example.com>
+Message-ID: <billing-2026@vendor-example.com>
+Authentication-Results: mx.example.com;
+    spf=pass smtp.mailfrom=vendor-example.com;
+    dkim=pass header.d=vendor-example.com;
+    dmarc=pass header.from=vendor-example.com
+Received: from mail.vendor-example.com by mx.example.com with ESMTP id mixed001
+Subject: Payment Status Update
+
+Hello,
+
+There is an overdue payment record in your account.
+
+Please review the billing page:
+http://billing.vendor-example.com/payment/status
+
+Regards,
+Vendor Billing Team

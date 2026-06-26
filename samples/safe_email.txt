@@ -1,0 +1,20 @@
+From: Engineering Newsletter <newsletter@example.org>
+Reply-To: newsletter@example.org
+Return-Path: <newsletter@example.org>
+Message-ID: <newsletter-001@example.org>
+Authentication-Results: mx.example.com;
+    spf=pass smtp.mailfrom=example.org;
+    dkim=pass header.d=example.org;
+    dmarc=pass header.from=example.org
+Received: from mail.example.org by mx.example.com with ESMTP id news001
+Subject: Weekly Engineering Newsletter
+
+Hi,
+
+This week's newsletter includes articles about software testing, cloud infrastructure, and secure coding practices.
+
+Read more here:
+https://example.org/newsletter/security-engineering
+
+Best,
+Engineering Newsletter Team

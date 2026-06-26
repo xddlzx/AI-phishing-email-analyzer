@@ -1,0 +1,20 @@
+From: University Registrar <registrar@example.edu>
+Reply-To: registrar@example.edu
+Return-Path: <registrar@example.edu>
+Message-ID: <deadline-2026@example.edu>
+Authentication-Results: mx.example.com;
+    spf=pass smtp.mailfrom=example.edu;
+    dkim=pass header.d=example.edu;
+    dmarc=pass header.from=example.edu
+Received: from mail.example.edu by mx.example.com with ESMTP id safe002
+Subject: Reminder: Course Add/Drop Deadline Today
+
+Dear student,
+
+This is a reminder that the course add/drop deadline is today.
+
+Please check your student portal when you have time:
+https://portal.example.edu/courses
+
+Best regards,
+Registrar Office

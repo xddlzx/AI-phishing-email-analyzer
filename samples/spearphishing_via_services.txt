@@ -1,0 +1,21 @@
+From: Dropbox Notification <notification@dropbox-security.example>
+Reply-To: external.sender@gmail.com
+Return-Path: <bounce@dropbox-security.example>
+Message-ID: <share-2026@dropbox-security.example>
+Authentication-Results: mx.example.com;
+    spf=softfail smtp.mailfrom=dropbox-security.example;
+    dkim=none header.d=dropbox-security.example;
+    dmarc=fail header.from=dropbox-security.example
+Received: from unknown.dropbox-security.example by mx.example.com with ESMTP id service001
+Subject: Shared Document Requires Verification
+
+Hello,
+
+A document has been shared with you through Dropbox.
+
+To access the shared document, please sign in and verify your account:
+
+http://dropbox-login.verify.example/account/signin
+
+Regards,
+Dropbox File Sharing
